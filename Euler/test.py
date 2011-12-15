@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-
+"""
+    author:         llq<llq17501@gmail.com>
+"""
 from timeit import Timer
 from cProfile import run
-from part3.p130 import main
+from part3.p133 import main
 
 
 def test():
