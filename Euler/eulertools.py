@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 def primes(n):
     if n<2:
         raise StopIteration
