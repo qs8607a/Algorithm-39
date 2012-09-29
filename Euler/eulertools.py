@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+import time
 
 def primes(n):
     if n<2:
@@ -11,13 +12,14 @@ def primes(n):
                 yield 2*i+3
                 for j in range(3*i+3,len(l),2*i+3):
                     l[j]=False
+
+
 def big_primes(begin,end,smallprimes=None):
     '''求begin 到end之间的所有素数，使用smallprimes试除'''
     if smallprimes==None:
         smallprimes=list(primes(int(end**0.5)))
     if 2 in smallprimes:
         smallprimes.remove(2)
-##    print(smallprimes)
     if begin<2:
         begin=3
     if begin==2:
@@ -38,3 +40,21 @@ def big_primes(begin,end,smallprimes=None):
     for i in range(len(B)):
         if B[i]:
             yield 2*i+begin
+
+
+def exp_mod(a, b, p):
+    """(a ** b) % p"""
+    if b == 0:
+        return 1
+    elif b % 2 == 0:
+        return ((exp_mod(a, b / 2, p) ** 2) % p)
+    else:
+        return ((exp_mod(a, b / 2, p) ** 2) * a) % p
+
+def timer(func):
+    def wraper(*args, **kwargs):
+        t = time.time()
+        result = func(*args, **kwargs)
+        print time.time() - t
+        return result
+    return wraper

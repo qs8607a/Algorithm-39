@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from eulertools import primes
+from eulertools import primes, exp_mod, timer
 
+@timer
 def f(n):
     """
-    >>> f(100)
-    454387123
+    >>> f(100000)
+    453647705
     """
     return sum(p for p in primes(n) if not is_factor_R_10_n(p))
 
@@ -19,20 +20,22 @@ def is_factor_R_10_n(p):
     True
     >>> is_factor_R_10_n(17)
     True
-    >>> is_factor_R_10_n(43)
+    >>> is_factor_R_10_n(41)
+    True
+    >>> is_factor_R_10_n(73)
     True
     """
+    print p
     # g(k) = sum(a[k] ** i for i in range(10)) % p
     # a[0] = 10
     # a[n] = 10 ** (10 ** n)
     # a[n + 1] = 10 ** (10 ** (n + 1)) = 10 ** ((10 ** n) * 10) = a[n] ** 10
     a = 10
+    is_cycle = set()
     while True:
-        result = sum(a ** i for i in range(10)) % p
-        if result == 0:
+        if sum(exp_mod(a, i, p) for i in range(10)) % p== 0:
             return True
-        if a % p == 10 % p:
+        if a % p in is_cycle:
             return False
-        a = a ** 10 % p
-    # a[2] = 10 ** 100
-
+        is_cycle.add(a % p)
+        a = exp_mod(a, 10, p)
