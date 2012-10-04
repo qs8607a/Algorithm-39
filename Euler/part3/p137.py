@@ -3,9 +3,10 @@
 
 from itertools import count
 from bisect import insort_left
+from Crazy import divisor
 
 def f(n):
-    """
+    """5a^2-b^2=1
     >>> f(1)
     2
     >>> f(2)
@@ -15,30 +16,17 @@ def f(n):
     >>> f(4)
     714
     >>> f(10)
-    p74049690
+    74049690
+    >>> f(15)
+    1120149658760
     """
-    index = 0
-    for a, b, c in Pythagorean_triple_genertor():
-        if 2 * (a - 1) == b:
-            index += 1
-            if index == n:
-                return a - 1
+    c, x, c_p  = 5, 11, 1
+    for i in range(n - 1):
+        c, c_p = 3 * x + c_p, c
+        x = int((c * c * 5 - 4) ** 0.5)
+        assert x * x + 4 == c * c * 5
+    return (x - 1) / 5
 
 
-def Pythagorean_triple_genertor():
-    ls = []
-    m = 2
-    a, b, c = 0, 0, 0
-    while True:
-        if 2 * m - 1 < a or len(ls) == 0:
-            for n in range(1, m):
-                a, b, c = m * m - n * n, 2 * m * n, m * m + n * n
-                if b < a:
-                    a,b = b,a
-                insort_left(ls, (a, b, c))
-            m += 1
-        a, b, c = ls.pop(0)
-        if 2 * m - 1 < a:
-            ls.insert(0, (a, b, c))
-        else:
-            yield a, b, c
+
+
