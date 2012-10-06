@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 import time
+from itertools import cycle
 
 def primes(n):
     if n<2:
@@ -58,3 +59,18 @@ def timer(func):
         print time.time() - t
         return result
     return wraper
+
+def convergent_continued_fraction(x):
+    a, l = x
+    a, b = a, 1
+    old_a, old_b = 1, 0
+    for n in cycle(l):
+        yield a, b
+        a, b, old_a, old_b = a * n + old_a, b * n + old_b, a, b
+
+
+def skip(iter_item, n):
+    for i in range(n):
+        next(iter_item)
+    for item in iter_item:
+        yield item
