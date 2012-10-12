@@ -10,6 +10,10 @@ def is_square(n):
     True
     >>> is_square(12)
     False
+    >>> is_square(2 ** 64)
+    True
+    >>> is_square(2 ** 64 - 1)
+    False
     """
     return (int(n ** 0.5) ** 2) == n
 

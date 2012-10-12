@@ -5,24 +5,21 @@ from collections import defaultdict
 
 def f(n):
     """
-    f(120000)
-
-    >>> f(120000)
-    32029046
+    >>> sum(set(map(sum,f(120000))))
+    30758397
+    >>> sum(map(sum,f(20000)))
+    679255
+    >>> map(sum, f(1000))
+    [784]
     """
     d = defaultdict(set)
-    result = 0
     for r in range(2, n):
         for q in range(1, min(r, n - r)):
-            tmp = r + q
-            if is_square(tmp * tmp - r * q):
-                s = d[q] & d[r]
-                if len(s) > 0:
-                    for p in s:
-                        tmp2 = tmp + p
-                        if tmp2 < n:
-                            result += tmp2
+            if is_square(r * r + r * q + q * q):
+                for p in d[q] & d[r]:
+                    if p < q and p + q + r <= n:
+                        yield p, q, r
+                        assert p < q < r
                 d[q].add(r)
                 d[r].add(q)
-    return result
 
