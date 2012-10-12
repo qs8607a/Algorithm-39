@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 
 from itertools import count
+from eulertools import is_square
 
 def f(n):
     """
@@ -25,11 +26,3 @@ def f(n):
                 if is_square(x):
                     yield x
 
-def is_square(n):
-    """
-    >>> is_square(144)
-    True
-    >>> is_square(12)
-    False
-    """
-    return (int(n ** 0.5) ** 2) == n

@@ -2,6 +2,17 @@
 import time
 from itertools import cycle
 
+
+
+def is_square(n):
+    """
+    >>> is_square(144)
+    True
+    >>> is_square(12)
+    False
+    """
+    return (int(n ** 0.5) ** 2) == n
+
 def primes(n):
     if n<2:
         raise StopIteration
