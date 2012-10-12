@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from eulertools import is_prime
+from eulertools import is_prime_fast as is_prime
 
 def f(n):
     """

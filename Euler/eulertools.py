@@ -1,6 +1,7 @@
 #-*- coding:utf-8 -*-
 import time
 from itertools import cycle
+from random import randint
 
 
 def is_prime(n):
@@ -17,8 +18,15 @@ def is_prime(n):
 
 
 
-def is_primie_fast(n):
-    pass
+def is_prime_fast(n):
+    if n < 100000:
+        return is_prime(n)
+    else:
+        for i in range(10):
+            x = randint(2, n)
+            if exp_mod(x, n -1, n) != 1:
+                return False
+        return True
 
 
 
