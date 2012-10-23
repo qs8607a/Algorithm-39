@@ -16,17 +16,37 @@ def is_prime(n):
         i=i+2
     return True
 
+FAST_TEST_COUNT = 10
 
+def primality_test(n):
+    x = randint(2, n - 1)
+    k = 0
+    q = n - 1
+    while q % 2 == 0:
+        k += 1
+        q /= 2
+    j = 0
+    y = exp_mod(x, q, n)
+    while j < k:
+        if y == n - 1 or (y == 1 and j == 0):
+            return True
+        if y == 1 and j > 0:
+            return False
+        j += 1
+        y = (y * y) % n
+    return y == 1
 
 def is_prime_fast(n):
-    if n < 100000:
-        return is_prime(n)
+    """
+    >>> all(is_prime_fast(p) for p in primes(100000))
+    True
+    >>> all(not is_prime_fast(p) for p in xrange(2, 100000) if p not in set(primes(100000)))
+    True
+    """
+    if n < 10:
+        return n in (2, 3, 5, 7)
     else:
-        for i in range(10):
-            x = randint(2, n)
-            if exp_mod(x, n -1, n) != 1:
-                return False
-        return True
+        return all(primality_test(n) for i in range(FAST_TEST_COUNT))
 
 
 
