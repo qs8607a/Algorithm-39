@@ -12,7 +12,8 @@ def f(m, n):
     a =  g(m , n)
     b = 19
     for i, j in product(range(2 * m), range(2 * n)):
-        pass
+        _ = (0, i + j), (2 * m, i + 2 * n - j)
+        _ = (2 * m - i, 2 * n + j)
     return a + b
 
 def g(m, n):
