@@ -4,6 +4,12 @@ from itertools import cycle
 from functools import partial
 from random import randint
 
+def GCD(x,y):
+    if x>y:
+        return GCD(y,x)
+    if x==0:
+        return y
+    return GCD(y%x,x)
 
 def is_prime(n):
     if n==2:
@@ -163,4 +169,4 @@ class memoized(object):
       return self.func.__doc__
    def __get__(self, obj, objtype):
       """Support instance methods."""
-      return partial(self.__call__, obj)
+      
