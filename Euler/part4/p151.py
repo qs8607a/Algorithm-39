@@ -4,10 +4,10 @@
 from collections import defaultdict
 from fractions import Fraction
 
-def f():
-    statuses = {(1, 1, 1, 1) : Fraction(1, 1)}
+def f(n):
+    statuses = {tuple(1 for i in range(n)) : Fraction(1, 1)}
     result = 0
-    for _ in range(14):
+    for _ in range(2 ** n - 2):
         new_statuses = defaultdict(Fraction)
         for status, p in statuses.iteritems():
             _sum = sum(status)
@@ -21,13 +21,19 @@ def f():
 
     return result
 
-def mul(a, b):
-    return a[0] * b[0], a[1] * b[1]
-
-def add(a, b):
-    return (a[0] * b[1] + a[1] * b[0]) , a[1] * b[1]
-
 def cut_in_half(status, use):
     return tuple(v if i < use else v - 1 if i == use else v + 1 for i, v in enumerate(status))
 
-print float(f())
+def g():
+    x1 = Fraction(52271, 864000)
+    x2 = Fraction(195774400573, 1867017600000)
+    x3 = Fraction(7816394518727, 26138246400000)
+    x4 = Fraction(7, 36)
+    x5 = Fraction(13, 36)
+    x6 = Fraction(1, 2)
+    p1 = ((x1 - x1 * x4) * ((1 - x2 - x3 + x2 * x6) / (1-x2)) + (x2 - x1 * x4) * ((x2 - x2 * x6) / x2) + (1 - x1 - x2 + x1 * x4) * ((x3 - x2 * x6) / (1-x2)))
+    p2 = (x1 * x4 - x1 * x4 * x6 + (x2 - x1 * x4) * x6 + (x1 - x1 * x4) * ((x3 - x2 * x6) / (1-x2)))
+    p3 = (x1 * x4 * x6)
+    return p1 + p2 * 2 + p3 * 3
+
+print float(g())
