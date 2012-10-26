@@ -5,8 +5,8 @@ from itertools import combinations_with_replacement, product
 
 def f(m, n):
     """
-    >>> f(47, 43)
-    3498239
+    >>> f(3, 3)
+    87
     >>> f(1, 1)
     1
     >>> f(2, 1)
@@ -21,7 +21,7 @@ def f(m, n):
     if n > m:
         return f(n, m)
     result = 0
-    for a, b in combinations_with_replacement(range(1, m + 1), 2):
+    for a, b in combinations_with_replacement(range(1, 2 * n), 2):
         if a > n :
             continue
         o_num, e_num = odd_even_count(a, 2* n - b)
@@ -37,7 +37,7 @@ def f(m, n):
 def h(m, n):
     """
     >>> h(47, 43)
-    811583104
+    846910284
     >>> h(3, 2)
     72
     """
