@@ -16,26 +16,23 @@ def f(n):
     >>> sum(f(100))
     10
     """
-    ps = list(primes(18))
-    steps = list(get_steps(ps))
-    for k in xrange(0, n, reduce(operator.mul, ps)):
-        for j in steps:
-            i = j + k
-            if i >= n:
-                break
-            sq_i = i * i
-            if i< n and all(map(lambda x:is_prime(sq_i + x), ADD_List)) and all(map(lambda x:not is_prime(sq_i + x), [11, 17, 19, 21, 23])):
-                yield i
+    ps = list(primes(5000))
+    steps = list(get_steps(ps, n))
+    for i in steps:
+        if i >= n:
+            break
+        sq_i = i * i
+        if i< n and all(map(lambda x:is_prime(sq_i + x), ADD_List)) and all(map(lambda x:not is_prime(sq_i + x), [11, 17, 19, 21, 23])):
+            yield i
 
 
-def get_steps(ps):
+def get_steps(ps, n):
     r = {}
     for p in ps:
         s = set(map(lambda x: (x *(p - 1))% p, ADD_List))
         r[p] = [i for i in range(p) if (i *  i ) % p not in s]
-
-    for i in range(reduce(operator.mul, ps)):
-        if all(i %p in r[p] for p in ps):
+    for i in range(n):
+        if all(i %p in r[p] for p in ps if p < i * i):
             yield i
 
 if __name__ == "__main__":
