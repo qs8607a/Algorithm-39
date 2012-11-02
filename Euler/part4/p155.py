@@ -5,11 +5,9 @@ from fractions import Fraction
 from collections import defaultdict
 from itertools import product
 
-STANDARD = Fraction(60, 1)
 
 def D(n):
     """
-    #298.85s  == 6 min
     >>> D(18)
     3857447
     >>> D(1)
@@ -20,12 +18,10 @@ def D(n):
     7
     """
     M = defaultdict(set)
-    M[1].add(STANDARD)
+    M[1].add(Fraction(1, 1))
     for use_unit in range(2, n + 1):
         for i in range(1, n / 2 + 1):
-            j = use_unit - i
-            for a, b in product(M[i], M[j]):
-                x, y = a + b, (a * b) / (a + b)
-                M[use_unit].update((x, y))
-    return len(reduce(lambda x,y:x.union(y), M.values()))
+            for a, b in product(M[i], M[use_unit - i]):
+                M[use_unit].update((a + b, (a * b) / (a + b)))
+    return len(reduce(set.union, M.values()))
 
