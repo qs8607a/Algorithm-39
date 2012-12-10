@@ -1,25 +1,5 @@
-package main
-
-import "fmt"
-
-func primes(n int64)[]int64{
-    result := make([]int64, 0)
-    if n >= 2{
-        result = append(result, 2)
-        flags := make([]bool, (n - 1)/2)
-        for i, _ := range flags{
-            if !flags[i]{
-                result = append(result, int64(2 * i + 3))
-                for j:= 3*i+3;j<len(flags); j += (2*i+3){
-                    if j < len(flags){
-                        flags[j]=true
-                    }
-                }
-            }
-        }
-    }
-    return result
-}
+package question
+import "eulertools"
 
 func exp_mod(a int64, b int64, p int64)int64{
     if b == 0{
@@ -56,17 +36,14 @@ func is_factor_of_R_n(p int64)bool{
     return false
 }
 
-func f(n int64)int64{
+func P133(n int64)int64{
+    //P133(100000)
     var result int64
     result = 0
-    for _, p := range primes(n){
+    for _, p := range eulertools.Primes(n){
         if !is_factor_of_R_n(p){
             result += p
         }
     }
     return result
-}
-
-func main(){
-    fmt.Println(f(100000))
 }
