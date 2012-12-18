@@ -2,11 +2,13 @@
 #-*- coding:utf-8 -*-
 
 from fractions import Fraction
+from eulertools import factorize
+
 
 def f(val, min_, max_):
     """
         #>>> f(Fraction(1, 2), 2, 80)
-        ?
+        0
         >>> f(Fraction(1, 2), 2, 45)
         3
     """
@@ -16,22 +18,34 @@ def f(val, min_, max_):
         tmp += Fraction(1, v * v)
         A.insert(0, tmp)
 
-    if val + val > A[0]:
-        val = A[0] - val
 
+    next_number = {}
+    i = min_
+    while i < max_:
+        j = i + 1
+        while len(set(factorize(j)) - set([2,3,5,7])) != 0:
+            j += 1
+        if j <= max_:
+            next_number[i] = j
+        i = j
     queue = [(val, min_)]
     index = 0
     counter = 0
-    print "Begin :"
     while index < len(queue):
         val, now = queue[index]
-        print index, now
-        remain = A[now - 2] #TODO check
+        print now, index
+        remain = A[now - min_]
+        if val == remain or val == 0:
+            counter  += 1
+
         if val == remain or val == 0:
             counter += 1
         elif 0 < val < remain:
-            queue.append((val, now + 1))
-            queue.append((val - Fraction(1, now * now), now + 1))
+            if val + val > remain:
+                val = remain - val
+            if now < max_:
+                queue.append((val, next_number[now]))
+                queue.append((val - Fraction(1, now * now), next_number[now]))
 
         index += 1
 
