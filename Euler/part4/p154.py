@@ -8,10 +8,15 @@ def f(end = 200000, exp = 12):
     count = 0
     for a in range(end + 1):
         tmp = exp_C(end, a)
-        for b in range(end - a + 1):
-            if exp_C(end - a, b) + tmp > exp:
-                count += 1
+        if tmp >= exp:
+            count += (end - a + 1)
+        else:
+            for b in range(end - a + 1):
+                if exp_C(end - a, b) + tmp >= exp:
+                    count += 1
     return count
+
+
 
 @memoized
 def count_down(n, base = 5):
