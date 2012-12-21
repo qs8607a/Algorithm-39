@@ -29,3 +29,26 @@ def count_down(n, base = 5):
 
 def exp_C(a, b):
     return count_down(a) - count_down(b) - count_down(a - b)
+
+from math import factorial
+
+def _f(n, base = 5):
+    count = 0
+    while n % base == 0:
+        n /= base
+        count += 1
+    return count
+
+def main():
+    for i in range(1, 40):
+        for line in range(i):
+            print " " * (i - line), 
+            for n in range(1, line + 2):
+                value = factorial(i - 1) / (factorial(line) * factorial(i - 1 - line))
+                value *= factorial(line) / (factorial(n - 1) * factorial(line + 1 - n))
+                print "{0}".format(_f(value)), 
+            print ""
+        print "-" * 30
+
+if __name__ == "__main__":
+    main()
