@@ -1,36 +1,57 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from eulertools import memoized
+from math import factorial, log
 
+def g(end, base):
+    return Triangle(end, base).value()
 
-def f(end = 200000, exp = 12):
-    count = 0
-    for a in range(end + 1):
-        tmp = exp_C(end, a)
-        if tmp >= exp:
-            count += (end - a + 1)
+class Triangle:
+    def __init__(self, n, base):
+        self.n = n
+        self.base = base
+        a = int(log(n, base))
+        left = n - base ** a
+        x = base ** (a - 1) + left
+        self.params = (a, left, x, base ** a)
+
+    def get(self, line, index):
+        print index, line, self.n
+        assert 0 <= index<= line < self.n
+        if self.n <= self.base:
+            return 0
         else:
-            for b in range(end - a + 1):
-                if exp_C(end - a, b) + tmp >= exp:
-                    count += 1
-    return count
+            a, left, x, base_n = self.params
+            if line < left: #顶部小三角
+                return Triangle(left, self.base).get(line, index)
+            elif line >= base_n and index <= line - base_n:#左侧小三角
+                return Triangle(left, self.base).get(line - base_n, index)
+            elif line >= base_n and index >= base_n:#右侧小三角
+                return Triangle(left, self.base).get(line - base_n, index - base_n)
 
+    def value(self):
+        return [[self.get(line, index) for index in range(line + 1)] for line in range(self.n)]
 
-
-@memoized
-def count_down(n, base = 5):
-    result = 0
-    while n > 0:
-        n = n / base
-        result += n
+def join(a, b, c, n, left, base):
+    result = []
+    for line in a:
+        result.append(line.copy())
+    for line in b[len(a)]:
+        result.append(line.copy())
     return result
 
 
-def exp_C(a, b):
-    return count_down(a) - count_down(b) - count_down(a - b)
+def compare(a, b):
+    if len(a) != len(b):
+        return False
+    for x, y in zip(a, b):
+        if len(x) != len(y):
+            return False
+        for i, j in zip(x, y):
+            if i != j:
+                return False
+    return True
 
-from math import factorial
 
 def _f(n, base = 5):
     count = 0
@@ -40,15 +61,16 @@ def _f(n, base = 5):
     return count
 
 def main():
-    for i in range(1, 40):
+    base = 5
+    for i in range(1, 7):
+        result = []
         for line in range(i):
-            print " " * (i - line), 
+            line_lst = []
             for n in range(1, line + 2):
-                value = factorial(i - 1) / (factorial(line) * factorial(i - 1 - line))
-                value *= factorial(line) / (factorial(n - 1) * factorial(line + 1 - n))
-                print "{0}".format(_f(value)), 
-            print ""
-        print "-" * 30
+                value = _f(factorial(i - 1) / (factorial(line) * factorial(i - 1 - line)) * factorial(line) / (factorial(n - 1) * factorial(line + 1 - n)), base)
+                line_lst.append(value)
+            result.append(line_lst)
+        assert compare(result, g(i, base)), "Error: {0}".format(i)
 
 if __name__ == "__main__":
     main()
