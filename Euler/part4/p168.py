@@ -13,10 +13,9 @@ def f():
                 l_v = v
                 p, v = divmod(v * b + p, 10)
                 if v == a and p == 0 and l_v != 0 and re > 10:
-                    print re, b
                     result += re
                     count += 1
                 re += v * 10 ** (i + 1)
-    print count
-    return str(result)
+    return str(result)[-5:]
 
+print f()
